@@ -16,15 +16,19 @@ import java.util.Optional;
 public class BlogController {
 
     private PostRepository postRepository;
+    private CategoryRepository categoryRepository;
 
-    public BlogController(PostRepository postRepository) {
+    public BlogController(PostRepository postRepository,CategoryRepository categoryRepository) {
         this.postRepository = postRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @RequestMapping("/")
     public String listPosts(ModelMap modelMap) {
         List<Post> posts = postRepository.findAll();
-        modelMap.put("posts", posts);
+        modelMap.put("posts", posts); 
+        List<Category> categoryList= categoryRepository.findAll();
+        modelMap.put("categories", categoryList); 
         return "home";
     }
 
@@ -33,5 +37,14 @@ public class BlogController {
         Post post = postRepository.findById(id).orElse(null);
         modelMap.put("post", post);
         return "post-details";
+    }
+    
+    @RequestMapping("/category/{id}")
+    public String categoryList(@PathVariable Long id, ModelMap modelMap) {
+    	Category category = categoryRepository.findById(id).orElse(null);
+    	modelMap.put("category", category);
+    	List<Post> postlists = postRepository.findByCategory(category);
+    	modelMap.put("posts", postlists);
+    	return "category-list";
     }
 }

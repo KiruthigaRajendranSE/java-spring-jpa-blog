@@ -1,7 +1,10 @@
 package com.pluralsight.blog.data;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.pluralsight.blog.model.Category;
 import com.pluralsight.blog.model.Post;
 
 /*
@@ -46,4 +49,6 @@ import com.pluralsight.blog.model.Post;
  * (post.getId() == id) return Optional.of(post); } return Optional.empty(); } }
  */
 
-public interface PostRepository extends JpaRepository<Post, Long> {};
+public interface PostRepository extends JpaRepository<Post, Long> {
+	List<Post> findByCategory(Category category);
+}

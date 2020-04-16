@@ -12,6 +12,7 @@
 
     <main role="main" class="py-5 flex-fill">
         <div class="container">
+        
             <div class="row">
                 <div class="col-sm-4 py-2 box-shadow" th:each="entry : ${posts}">
                     <a th:href="@{'/post/' + ${entry.getId()}}">
